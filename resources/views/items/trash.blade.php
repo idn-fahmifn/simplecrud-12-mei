@@ -1,37 +1,17 @@
 @extends('template.template')
 
 @section('title')
-    Detail Kategori
+    Riwayat Kategori
 @endsection
 
 @section('sub-title')
-    {{ $category->category_name }}
+    Kategori terhapus sementara
 @endsection
 
 @section('table-title')
-    Barang yang ada pada kategori {{ $category->category_name }}
+    Daftar kategori yang dihapus sementara
 @endsection
 
-@section('list-button')
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Edit kategori
-    </button>
-
-    <form action="{{ route('category.destroy', $category->uuid) }}" method="post">
-        @method('delete')
-        <button type="submit" class="btn btn-secondary" onclick="return confirm('yakin mau dipulihkan')">
-            Hapus kategori
-        </button>
-    </form>
-
-    <form action="{{ route('category.force', $category->uuid) }}" method="post">
-        @method('delete')
-        <button type="submit" class="btn btn-danger" onclick="return confirm('hapus permanen tidak akan bisa memulihkan data. yakin an')">
-            Hapus kategori
-        </button>
-    </form>
-
-@endsection
 
 @section('table-content')
     <table class="table table-striped">
@@ -41,12 +21,24 @@
             <th>Pilihan</th>
         </thead>
         <tbody>
-            {{-- @forelse ($categories as $category)
+            @forelse ($categories as $category)
                 <tr>
                     <td>{{ $category->category_name }}</td>
                     <td>10</td>
-                    <td>
-                        <a href="" class="btn btn-primary btn-sm">Detail</a>
+                    <td class="d-flex gap-2">
+                        <form action="{{ route('category.restore', $category->uuid) }}" method="post">
+                            @method('patch')
+                            <button type="submit" onclick="return confirm('Pulihkan kategori ini?')"
+                                class="btn btn-sm btn-secondary">Pulihkan</button>
+                        </form>
+
+                        <form action="{{ route('category.force', $category->uuid) }}" method="post">
+                            @method('delete')
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                onclick="return confirm('hapus permanen tidak akan bisa memulihkan data. yakin anda akan melakukannya?')">
+                                Hapus kategori
+                            </button>
+                        </form>
                     </td>
                 </tr>
             @empty
@@ -57,7 +49,7 @@
                         </div>
                     </td>
                 </tr>
-            @endforelse --}}
+            @endforelse
         </tbody>
     </table>
 
