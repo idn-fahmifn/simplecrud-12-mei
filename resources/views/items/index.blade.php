@@ -20,6 +20,29 @@
 @endsection
 
 @section('table-content')
+    {{-- jika berhasil --}}
+
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Berhasil!</strong> {{ session('success') }}.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    {{-- jika gagal --}}
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Terdapat kesalahan!</strong>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+
     <table class="table table-striped">
         <thead>
             <th>Nama Barang</th>
@@ -113,7 +136,8 @@
                         </div>
                         <div class="form-group my-2">
                             <label for="gambarBarang" class="form-label">Stok Barang</label>
-                            <input type="file" accept="image/*" name="gambarBarang" id="gambarBarang" value="{{ old('gambarBarang') }}"
+                            <input type="file" accept="image/*" name="gambarBarang" id="gambarBarang"
+                                value="{{ old('gambarBarang') }}"
                                 class="form-control @error('gambarBarang') is-invalid @enderror">
                             @error('gambarBarang')
                                 <div id="gambarBarang" class="invalid-feedback">
@@ -123,7 +147,8 @@
                         </div>
                         <div class="form-group my-2">
                             <label for="deskripsiBarang" class="form-label">Deskripsi Barang</label>
-                            <textarea name="deskripsiBarang" id="deskripsiBarang" class="form-control @error('deskripsiBarang') is-invalid @enderror">{{ old('deskripsiBarang') }}</textarea>
+                            <textarea name="deskripsiBarang" id="deskripsiBarang"
+                                class="form-control @error('deskripsiBarang') is-invalid @enderror">{{ old('deskripsiBarang') }}</textarea>
                             @error('deskripsiBarang')
                                 <div id="deskripsiBarang" class="invalid-feedback">
                                     {{ $message }}

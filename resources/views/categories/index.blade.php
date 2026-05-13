@@ -20,6 +20,27 @@
 @endsection
 
 @section('table-content')
+
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Berhasil!</strong> {{ session('success') }}.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    {{-- jika gagal --}}
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Terdapat kesalahan!</strong>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <table class="table table-striped">
         <thead>
             <th>Nama Kategori</th>
@@ -30,7 +51,7 @@
             @forelse ($categories as $category)
                 <tr>
                     <td>{{ $category->category_name }}</td>
-                    <td>10</td>
+                    <td>{{ $category->item_count }}</td>
                     <td>
                         <a href="{{ route('category.show', $category->uuid) }}" class="btn btn-primary btn-sm">Detail</a>
                     </td>
@@ -62,7 +83,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="namaKategori" class="form-label">Nama Kategori</label>
-                            <input type="text" name="namaKategori" id="namaKategori" value="{{ old('namaKategori') }}" class="form-control @error('namaKategori') is-invalid @enderror">
+                            <input type="text" name="namaKategori" id="namaKategori" value="{{ old('namaKategori') }}"
+                                class="form-control @error('namaKategori') is-invalid @enderror">
                             @error('namaKategori')
                                 <div id="namaKategori" class="invalid-feedback">
                                     {{ $message }}

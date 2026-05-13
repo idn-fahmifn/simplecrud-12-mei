@@ -52,41 +52,4 @@
             @endforelse
         </tbody>
     </table>
-
-
-    {{-- Modal --}}
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Kategori</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <form action="{{ route('category.update', $category->uuid) }}" method="post">
-                    @csrf
-                    @method('put')
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="namaKategori" class="form-label">Nama Kategori</label>
-                            <input type="text" name="namaKategori" id="namaKategori"
-                                value="{{ old('namaKategori', $category->category_name) }}"
-                                class="form-control @error('namaKategori') is-invalid @enderror">
-                            @error('namaKategori')
-                                <div id="namaKategori" class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
 @endsection

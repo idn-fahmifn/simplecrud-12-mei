@@ -26,38 +26,59 @@
 
     <form action="{{ route('category.force', $category->uuid) }}" method="post">
         @method('delete')
-        <button type="submit" class="btn btn-danger" onclick="return confirm('hapus permanen tidak akan bisa memulihkan data. yakin an')">
+        <button type="submit" class="btn btn-danger"
+            onclick="return confirm('hapus permanen tidak akan bisa memulihkan data. yakin an')">
             Hapus kategori
         </button>
     </form>
-
 @endsection
 
 @section('table-content')
+
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Berhasil!</strong> {{ session('success') }}.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    {{-- jika gagal --}}
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Terdapat kesalahan!</strong>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <table class="table table-striped">
         <thead>
-            <th>Nama Kategori</th>
-            <th>Jumlah Barang</th>
+            <th>Nama Barang</th>
+            <th>Stok Barang</th>
             <th>Pilihan</th>
         </thead>
         <tbody>
-            {{-- @forelse ($categories as $category)
+            @forelse ($items as $item)
                 <tr>
-                    <td>{{ $category->category_name }}</td>
-                    <td>10</td>
+                    <td>{{ $item->name }}</td>
+                    <td>{{ $item->stock }}</td>
                     <td>
-                        <a href="" class="btn btn-primary btn-sm">Detail</a>
+                        <a href="{{ route('item.show', $item->uuid) }}" class="btn btn-primary btn-sm">Detail</a>
                     </td>
                 </tr>
             @empty
                 <tr>
                     <td colspan="3">
                         <div class="alert alert-light text-center" role="alert">
-                            Data kategori tidak ditemukan.
+                            Data barang tidak ditemukan.
                         </div>
                     </td>
                 </tr>
-            @endforelse --}}
+            @endforelse
         </tbody>
     </table>
 
